@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<entry_list version="1.0">
+  <entry id="center[1]">
+    <hw hindex="1">cen*ter</hw>
+    <sound>
+      <wav>center01.wav</wav>
+    </sound>
+    <pr>ˈsen-tər</pr>
+    <fl>noun</fl>
+    <def>
+      <sn>1</sn>
+      <dt>
+        :the middle part of something
+        <vi>
+          the
+          <it>center</it> of a room
+        </vi>
+      </dt>
+      <sn>2</sn>
+      <dt>
+        :a person or thing characterized by a particular concentration or activity
+        <vi>
+          She likes to be the
+          <it>center</it> of attention.
+        </vi>
+      </dt>
+      <sn>3</sn>
+      <dt>
+        :a place used for a particular purpose
+        <vi>
+          day care
+          <it>center</it>
+        </vi>
+      </dt>
+      <sn>4</sn>
+      <dt>:the middle point of a circle or a sphere equally distant from every point on the circumference or surface</dt>
+      <sn>5</sn>
+      <dt>:a player occupying a middle position on a basketball, football, hockey, lacrosse, or soccer team</dt>
+    </def>
+  </entry>
+  <entry id="center[2]">
+    <hw hindex="2">center</hw>
+    <sound>
+      <wav>center01.wav</wav>
+    </sound>
+    <fl>verb</fl>
+    <in>
+      <if>cen*tered</if>
+    </in>
+    <in>
+      <if>cen*ter*ing</if>
+    </in>
+    <def>
+      <sn>1</sn>
+      <dt>
+        :to place or fix at or around a center or central area
+        <vi>
+          Can you
+          <it>center</it> the picture on the wall?
+        </vi>
+      </dt>
+      <sn>2</sn>
+      <dt>
+        :to collect or concentrate at or around one point, group, or person
+        <vi>
+          His life
+          <it>centers</it> around his family.
+        </vi>
+      </dt>
+    </def>
+  </entry>
+  <entry id="centre">
+    <hw>cen*tre</hw>
+    <cx>
+      <cl>chiefly British variant of</cl>
+      <ct>center</ct>
+    </cx>
+  </entry>
+  <entry id="center of gravity">
+    <hw>center of gravity</hw>
+    <fl>noun</fl>
+    <in>
+      <il>plural</il>
+      <if>centers of gravity</if>
+    </in>
+    <def>
+      <dt>:the point at which the entire weight of a body may be thought of as centered so that if supported at this point the body would balance perfectly</dt>
+    </def>
+  </entry>
+</entry_list>

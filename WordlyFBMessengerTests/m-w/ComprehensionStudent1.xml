@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<entry_list version="1.0">
+  <entry id="comprehension">
+    <hw>com*pre*hen*sion</hw>
+    <sound>
+      <wav>compre07.wav</wav>
+    </sound>
+    <pr>ˌkäm-pri-ˈhen-shən</pr>
+    <fl>noun</fl>
+    <def>
+      <dt>
+        :ability to understand
+        <vi>
+          reading <it>comprehension</it>
+        </vi>
+        <vi>
+          beyond <it>comprehension</it>
+        </vi>
+      </dt>
+    </def>
+  </entry>
+</entry_list>

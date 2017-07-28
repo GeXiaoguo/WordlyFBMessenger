@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<entry_list version="1.0">
+  <entry id="alas">
+    <hw>alas</hw>
+    <sound>
+      <wav>alas0001.wav</wav>
+    </sound>
+    <pr>ə-ˈlas</pr>
+    <fl>interjection</fl>
+    <def>
+      <dt>
+        <un>
+          used to express unhappiness, pity, disappointment or worry <vi>
+            <it>Alas,</it> it was too late!
+          </vi>
+        </un>
+      </dt>
+    </def>
+  </entry>
+</entry_list>
