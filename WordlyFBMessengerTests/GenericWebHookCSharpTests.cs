@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using System.Dynamic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
@@ -32,9 +36,8 @@ namespace WordlyFBMessengerTests
             var jsonText = File.ReadAllText(fullPath);
 
             dynamic messageDynamic = JsonConvert.DeserializeObject(jsonText);
-
-            string word = GenericWebHookCSharp.ParseFBMessage(messageDynamic);
-            Assert.AreEqual(expectedWord, word);
+            var content = FaceBookMessenger.ParseTextMessage(messageDynamic);
+            Assert.AreEqual(expectedWord, content.word);
         }
 
         [Test]
@@ -47,7 +50,7 @@ namespace WordlyFBMessengerTests
             string fullPath = Path.Combine(testDir, wordFile);
 
             var xml = XDocument.Load(fullPath);
-            var definitions = GenericWebHookCSharp.ParseMariamWebsterWordDefinition(xml.ToString());
+            var definitions = MariamWebseter.ParseMariamWebsterWordDefinition(xml.ToString());
             Assert.AreEqual(expectedCount, definitions.Count());
         }
 
@@ -57,21 +60,21 @@ namespace WordlyFBMessengerTests
         public async Task LookupMarimWebster(string word)
         {
             TraceWriter log = null;
-            var definitions = await GenericWebHookCSharp.MultiLevelLookUp(word, GenericWebHookCSharp.LookupCachedWord, GenericWebHookCSharp.LookupMarimWebsterStudent2, GenericWebHookCSharp.LookupMarimWebsterStudent3, log);
+            var definitions = await GenericWebHookCSharp.CachedLookUp(word, log);
             Assert.IsTrue(definitions.Any());
         }
 
         [Test]
-        public async Task SaveWordDefinition()
+        public async Task SaveWordDefinition_Test()
         {
             string wordFile = @"m-w\goodStudent1.xml";
             var testDir = TestContext.CurrentContext.TestDirectory;
             string fullPath = Path.Combine(testDir, wordFile);
             var xml = File.ReadAllText(fullPath);
 
-            await GenericWebHookCSharp.SaveWordDefinition(word: "good", xmlDefinition: xml);
+            await AzureTableStorage.SaveWordDefinition(word: "good", xmlDefinition: xml);
 
-            var xmlResult = await GenericWebHookCSharp.LookupCachedWord(word: "good");
+            var xmlResult = await AzureTableStorage.LookupCachedWord(word: "good");
             Assert.AreEqual(xml, xmlResult);
         }
     }
