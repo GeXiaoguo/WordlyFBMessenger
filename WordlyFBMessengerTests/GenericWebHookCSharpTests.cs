@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -76,6 +77,11 @@ namespace WordlyFBMessengerTests
 
             var xmlResult = await AzureTableStorage.LookupCachedWord(word: "good");
             Assert.AreEqual(xml, xmlResult);
+        }
+        [Test]
+        public async Task QueryUserActivitySince_Test()
+        {
+            var entires = AzureTableStorage.QueryUserActivitySince("1292686234187122", DateTime.UtcNow - TimeSpan.FromMinutes(10)).ToList();
         }
     }
 }

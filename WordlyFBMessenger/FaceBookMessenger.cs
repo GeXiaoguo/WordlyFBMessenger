@@ -10,7 +10,7 @@ namespace WordlyFBMessenger
 {
     public static class FaceBookMessenger
     {
-        public static (string word, string recipientId) ParseTextMessage(dynamic messageRequestContent, TraceWriter log = null)
+        public static (string word, string recipientId) ParseTextMessage(dynamic messageRequestContent)
         {
             try
             {
@@ -22,8 +22,6 @@ namespace WordlyFBMessenger
                 string recipientId = message.sender.id;
 
                 var msg = message.message;
-                string prJsonString = JsonConvert.SerializeObject(messageRequestContent);
-                log?.Info(prJsonString);
 
                 string word = msg.text;
 

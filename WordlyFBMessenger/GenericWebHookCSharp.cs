@@ -27,16 +27,34 @@ namespace WordlyFBMessenger
 
     public static class GenericWebHookCSharp
     {
+        /// <summary>
+        /// has to be less than 1000 messages per day
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static bool CheckQuota(string userId)
+        {
+            var entries = AzureTableStorage.QueryUserActivitySince(userId, DateTimeOffset.UtcNow - TimeSpan.FromDays(1));
+            if (entries.Count() > 1000)
+                return false;
+
+            return true;
+        }
+
         [FunctionName("GenericWebHookCsharp")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequestMessage req, TraceWriter log)
         {
             //string challenge = req.GetQueryNameValuePairs().Where(x => x.Key == "hub.challenge").First().Value;
-
             var messageHttpContent = await req.Content.ReadAsAsync<ExpandoObject>();
 
             string response = "";
 
-            (string word, string recipientId) = FaceBookMessenger.ParseTextMessage(messageHttpContent, log);
+            (string word, string recipientId) = FaceBookMessenger.ParseTextMessage(messageHttpContent);
+
+            if (!CheckQuota(recipientId))
+            {
+                return req.CreateResponse((HttpStatusCode)429, "too many messages");
+            }
 
             string ipAddress = "";
             if (req.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))

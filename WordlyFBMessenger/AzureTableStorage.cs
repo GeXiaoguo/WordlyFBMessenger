@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -8,6 +9,19 @@ namespace WordlyFBMessenger
     public static class AzureTableStorage
     {
         private static CloudTableClient _cloudTableClient;
+
+        public static IEnumerable<UserActivityLogEntry> QueryUserActivitySince(string userId, DateTimeOffset sinceUTCTime)
+        {
+            var activityTable = GetCloudTableClientInstance().GetTableReference("UserActivity");
+            var equalsUserIdFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, userId);
+            var sinceUTCTimeFilter = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.GreaterThan, sinceUTCTime.ToUnixTimeSeconds().ToString());
+            var combineFilters = TableQuery.CombineFilters(equalsUserIdFilter, TableOperators.And, sinceUTCTimeFilter);
+
+            TableQuery<UserActivityLogEntry> query = new TableQuery<UserActivityLogEntry>().Where(combineFilters);
+
+            var entires = activityTable.ExecuteQuery(query);
+            return entires;
+        }
 
         public static async Task<string> LookupCachedWord(string word)
         {
