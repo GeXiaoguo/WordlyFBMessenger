@@ -68,8 +68,8 @@ namespace WordlyFBMessenger
             if (!string.IsNullOrWhiteSpace(word))
             {
                 var definitions = await CachedLookUp(word, log);
-                definitions = definitions.Select(x => ":" + x);
-                response = string.Join("\r\n\r\n", definitions);
+                var definitionLines = definitions.Select(x => ":" + x.Item1 + ( x.Item2==null? null : "\r\n-" + x.Item2));
+                response = string.Join("\r\n\r\n", definitionLines);
             }
 
             await FaceBookMessenger.SendTextResponse(recipientId, response);
@@ -77,14 +77,12 @@ namespace WordlyFBMessenger
             return req.CreateResponse(HttpStatusCode.OK, $"reply sent");
         }
 
-        public async static Task<IEnumerable<string>> CachedLookUp(string word, TraceWriter log = null)
+        public async static Task<IEnumerable<ValueTuple<string, string>>> CachedLookUp(string word, TraceWriter log = null)
         {
-            var definitions = new List<string>();
-
             log?.Info($"cached word definition lookup: {word}");
             string xmlText = await AzureTableStorage.LookupCachedWord(word);
 
-            definitions = MariamWebseter.ParseMariamWebsterWordDefinition(xmlText).ToList();
+            var definitions = MariamWebseter.ParseMariamWebsterWordDefinition(xmlText).ToList();
             if (definitions.Any())
             {
                 return definitions;

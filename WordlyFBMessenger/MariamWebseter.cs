@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
@@ -31,7 +32,7 @@ namespace WordlyFBMessenger
             }
         }
 
-        public static IEnumerable<string> ParseMariamWebsterWordDefinition(string xmlText)
+        public static IEnumerable<ValueTuple<string, string>> ParseMariamWebsterWordDefinition(string xmlText)
         {
             try
             {
@@ -40,26 +41,33 @@ namespace WordlyFBMessenger
                 var definittions = xml.Root.Descendants("dt")
                     .Select(x =>
                     {
+                        string vi = x.Descendants("vi")
+                            .FirstOrDefault()?.Value
+                            .Trim()
+                            .Replace(@"\n", "");
+
+                        vi = vi==null? vi : Regex.Replace(vi, @"\s+", " ");
+
                         string definition = x.FirstNode is XText ? x.FirstNode.ToString().Replace(":", "").Trim() : null;
                         if (!string.IsNullOrWhiteSpace(definition))
-                            return definition;
+                            return (definition, vi);
 
                         definition = x.Descendants("un").Select(y => y.FirstNode.ToString()).FirstOrDefault()?.Trim();
                         if (!string.IsNullOrWhiteSpace(definition))
-                            return definition;
+                            return (definition, vi);
 
                         definition = x.Descendants("sx").Select(y => y.FirstNode.ToString()).FirstOrDefault()?.Trim();
                         if (!string.IsNullOrWhiteSpace(definition))
-                            return definition;
+                            return (definition, vi);
 
-                        return definition;
+                        return (definition, vi);
                     })
                     .ToList();
                 return definittions;
             }
             catch (XmlException e)
             {
-                return new List<string>();
+                return new List<ValueTuple<string, string>>();
             }
         }
     }
