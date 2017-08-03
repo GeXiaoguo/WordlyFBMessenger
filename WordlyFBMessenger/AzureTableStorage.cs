@@ -25,7 +25,7 @@ namespace WordlyFBMessenger
 
         public static async Task<string> LookupCachedWord(string word)
         {
-            var table = GetCloudTableClientInstance().GetTableReference("MWStudentWordDefinitios");
+            var table = GetCloudTableClientInstance().GetTableReference("MWStudentWordDefinitions");
             var readOperation = TableOperation.Retrieve<WordDefinitionCacheEntry>(partitionKey: "MWStudent", rowkey: word);
             var result = await table.ExecuteAsync(readOperation);
             var definition = result.Result as WordDefinitionCacheEntry;
@@ -62,12 +62,11 @@ namespace WordlyFBMessenger
 
         public static Task SaveWordDefinition(string word, string xmlDefinition)
         {
-            var table = GetCloudTableClientInstance().GetTableReference("MWStudentWordDefinitios");
+            var table = GetCloudTableClientInstance().GetTableReference("MWStudentWordDefinitions");
             var tableOperation = TableOperation.InsertOrReplace(new WordDefinitionCacheEntry()
             {
                 PartitionKey = "MWStudent",
                 RowKey = word,
-                Timestamp = DateTime.UtcNow,
                 XmlDefinition = xmlDefinition
             });
             return table.ExecuteAsync(tableOperation);

@@ -79,7 +79,7 @@ namespace WordlyFBMessenger
 
         public async static Task<IEnumerable<ValueTuple<string, string>>> CachedLookUp(string word, TraceWriter log = null)
         {
-            log?.Info($"cached word definition lookup: {word}");
+            log?.Info($"cache lookup: {word}");
             string xmlText = await AzureTableStorage.LookupCachedWord(word);
 
             var definitions = MariamWebseter.ParseMariamWebsterWordDefinition(xmlText).ToList();
@@ -93,7 +93,7 @@ namespace WordlyFBMessenger
             definitions = MariamWebseter.ParseMariamWebsterWordDefinition(xmlText).ToList();
             if (definitions.Any())
             {
-                AzureTableStorage.SaveWordDefinition(word, xmlText);
+                await AzureTableStorage.SaveWordDefinition(word, xmlText);
                 return definitions;
             }
 
@@ -102,7 +102,7 @@ namespace WordlyFBMessenger
             definitions = MariamWebseter.ParseMariamWebsterWordDefinition(xmlText).ToList();
             if (definitions.Any())
             {
-                AzureTableStorage.SaveWordDefinition(word, xmlText);
+                await AzureTableStorage.SaveWordDefinition(word, xmlText);
                 return definitions;
             }
 
