@@ -60,14 +60,15 @@ namespace WordlyFBMessenger
             return _cloudTableClient;
         }
 
-        public static Task SaveWordDefinition(string word, string xmlDefinition)
+        public static Task SaveWordDefinition(string word, string xmlDefinition, IEnumerable<string> audioFiles)
         {
             var table = GetCloudTableClientInstance().GetTableReference("MWStudentWordDefinitions");
             var tableOperation = TableOperation.InsertOrReplace(new WordDefinitionCacheEntry()
             {
                 PartitionKey = "MWStudent",
                 RowKey = word,
-                XmlDefinition = xmlDefinition
+                XmlDefinition = xmlDefinition,
+                AudioFiles = string.Join(",", audioFiles)
             });
             return table.ExecuteAsync(tableOperation);
         }
