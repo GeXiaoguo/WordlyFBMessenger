@@ -12,63 +12,6 @@ namespace WordlyFBMessengerTests
     public class FaceBookMessengerTests
     {
         [Test]
-        public void FormatMessage_Test()
-        {
-            var definitions = new WordDefinitions()
-            {
-                Word = "center",
-                Entreis = new[]
-                {
-                    new DefinitionEntry()
-                    {
-                        Definition = "a person or thing characterized by a particular concentration or activity",
-                        Usage = "She likes to be the <it>center</it> of attention"
-                    },
-                    new DefinitionEntry()
-                    {
-                        Definition = "the middle point of a circle or a sphere equally distant from every point on the circumference or surfac",
-                        Usage = "  "
-                    },
-                },
-                AudioFiles = new[]
-                {
-                    "center01.wav",
-                    "center02.wav"
-                }
-            };
-
-            string jsonString = FaceBookMessenger.FormatMessage("1292686234187122", definitions);
-        }
-
-        [Test]
-        public async Task SendAudioMessage_Test()
-        {
-            var testDir = TestContext.CurrentContext.TestDirectory;
-            string fullPath = Path.Combine(testDir, @"FBMessenger\StructuredMessageAudio.json");
-
-            string textMessage = File.ReadAllText(fullPath);
-
-            await FaceBookMessenger.SendStructuredMessage(textMessage);
-        }
-
-        [Test]
-        public async Task SendStructuredMessage_Test()
-        {
-            var testDir = TestContext.CurrentContext.TestDirectory;
-            string fullPath = Path.Combine(testDir, @"FBMessenger\StructuredMessageSample.json");
-
-            string textMessage = File.ReadAllText(fullPath);
-
-            await FaceBookMessenger.SendStructuredMessage(textMessage);
-        }
-
-        [Test]
-        public async Task SendStructuredMessage_Test1()
-        {
-            await FaceBookMessenger.SendStructuredMessage("1292686234187122", "hellooooo");
-        }
-
-        [Test]
         public void ParsingTextMessage_Test()
         {
             var testDir = TestContext.CurrentContext.TestDirectory;

@@ -44,7 +44,7 @@ namespace WordlyFBMessenger
             //string challenge = req.GetQueryNameValuePairs().Where(x => x.Key == "hub.challenge").First().Value;
             var messageHttpContent = await req.Content.ReadAsAsync<ExpandoObject>();
 
-            string jsonMessage = "";
+            string response = "";
 
             (string word, string recipientId) = FaceBookMessenger.ParseTextMessage(messageHttpContent);
 
@@ -60,16 +60,16 @@ namespace WordlyFBMessenger
                 prop = (RemoteEndpointMessageProperty)req.Properties[RemoteEndpointMessageProperty.Name];
                 ipAddress = prop.Address;
             }
-
             await AzureTableStorage.LogUserActivity(recipientId, word, ipAddress);
 
             if (!string.IsNullOrWhiteSpace(word))
             {
                 var definitions = await CachedLookUp(word, log);
-                jsonMessage = FaceBookMessenger.FormatMessage(recipientId, definitions);
+                var definitionLines = definitions.Entreis.Select(x => $":{x.Definition} \r\n -{x.Usage}");
+                response = string.Join("\r\n\r\n", definitionLines);
             }
 
-            await FaceBookMessenger.SendJsonMessage(jsonMessage);
+            await FaceBookMessenger.SendTextResponse(recipientId, response);
 
             return req.CreateResponse(HttpStatusCode.OK, $"reply sent");
         }
