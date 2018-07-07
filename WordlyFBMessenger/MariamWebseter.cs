@@ -16,7 +16,7 @@ namespace WordlyFBMessenger
         public static async Task<Stream> DownlaodAudioAsync(string fileName)
         {
             char partition = fileName.First();
-            string audioUrl = $@"http://media.merriam-webster.com/soundc11/{partition}/{fileName}?key=804c8987-5ac7-46aa-a41c-09341db46050";
+            string audioUrl = $@"http://media.merriam-webster.com/soundc11/{partition}/{fileName}?key={student2 api key on gist}";
             using (var client = new HttpClient())
             {
                 var responseMessage = await client.GetAsync(audioUrl);
@@ -26,7 +26,7 @@ namespace WordlyFBMessenger
 
         public static async Task<string> LookupMarimWebsterStudent2(string word)
         {
-            string student2Url = @"http://www.dictionaryapi.com/api/v1/references/sd2/xml/" + word + @"?key=804c8987-5ac7-46aa-a41c-09341db46050";
+            string student2Url = @"http://www.dictionaryapi.com/api/v1/references/sd2/xml/" + word + @"?key={student2 api key on gist}";
             using (var client = new HttpClient())
             {
                 var responseMessage = await client.GetAsync(student2Url);
@@ -36,7 +36,7 @@ namespace WordlyFBMessenger
 
         public static async Task<string> LookupMarimWebsterStudent3(string word)
         {
-            string student3Url = @"http://www.dictionaryapi.com/api/v1/references/sd3/xml/" + word + @"?key=72059f3b-7a46-4634-8961-2c2a5680a0eb";
+            string student3Url = @"http://www.dictionaryapi.com/api/v1/references/sd3/xml/" + word + @"?key={student3 api key on gist}";
             using (var client = new HttpClient())
             {
                 var responseMessage = await client.GetAsync(student3Url);
